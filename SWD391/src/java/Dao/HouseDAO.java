@@ -8,6 +8,7 @@ import Model.Property;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class HouseDAO extends DBContext{
                 double price = rs.getDouble(7);
                 int providerID = rs.getInt(8);
                 String img = rs.getString(9);
-                Date createDate = rs.getDate(10);
+                Time createDate = rs.getTime(10);
                 String description = rs.getString(11);
                 data.add(new Property(id, Address, size, bed, bath, gara, price, providerID, img, createDate, description));
             }
