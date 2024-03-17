@@ -4,15 +4,19 @@
  */
 package Dao;
 
+import Model.Property;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author acer
  */
 public class HouseDAO extends DBContext{
-    public void updateHouse(int id, String Address, int Size, int bed, int bath, int gara, int price, String img, String Description){
+    public void updateHouse(int id, String Address, int Size, int bed, int bath, int gara, double price, String img, String Description){
         String sql = "update Property set [Address] = ?, [Size] = ?, [bed]=?,[bath]=?,[gara]=?, [price]=?, [img]=?, [Description]=? where [id]=?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -21,12 +25,38 @@ public class HouseDAO extends DBContext{
             st.setInt(3, bed);
             st.setInt(4, bath);
             st.setInt(5, gara);
-            st.setInt(6, price);
+            st.setDouble(6, price);
             st.setString(7, img);
             st.setString(8, Description);
             st.setInt(9, id);
             st.executeUpdate();
         } catch (Exception e) {
         }
+    }
+    
+    public List<Property> getAllHouse(){
+        List<Property> data = new ArrayList<>();
+        try {
+            String sql = "select * from Property";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String Address = rs.getString(2);
+                int size = rs.getInt(3);
+                int bed = rs.getInt(4);
+                int bath = rs.getInt(5);
+                int gara = rs.getInt(6);
+                double price = rs.getDouble(7);
+                int providerID = rs.getInt(8);
+                String img = rs.getString(9);
+                Date createDate = rs.getDate(10);
+                String description = rs.getString(11);
+                data.add(new Property(id, Address, size, bed, bath, gara, price, providerID, img, createDate, description));
+            }
+        } catch (Exception e) {
+            System.out.println("List property: " + e.getMessage());
+        }
+        return data;
     }
 }

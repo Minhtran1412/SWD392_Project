@@ -13,7 +13,8 @@ import java.sql.Date;
 public class Property {
     private int id;
     private String Address;
-    private int Size, bed, bath, gara, price;
+    private int Size, bed, bath, gara;
+    private double price;
     private int providerID;
     private String img;
     private Date createDate;
@@ -22,7 +23,7 @@ public class Property {
     public Property() {
     }
 
-    public Property(int id, String Address, int Size, int bed, int bath, int gara, int price, int providerID, String img, Date createDate, String Description) {
+    public Property(int id, String Address, int Size, int bed, int bath, int gara, double price, int providerID, String img, Date createDate, String Description) {
         this.id = id;
         this.Address = Address;
         this.Size = Size;
@@ -84,11 +85,11 @@ public class Property {
         this.gara = gara;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

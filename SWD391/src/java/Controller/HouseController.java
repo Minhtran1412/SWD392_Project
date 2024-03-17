@@ -49,7 +49,7 @@ public class HouseController extends HttpServlet {
         int bed = Integer.parseInt(request.getParameter("bed"));
         int bath = Integer.parseInt(request.getParameter("bath"));
         int gara = Integer.parseInt(request.getParameter("gara"));
-        int price = Integer.parseInt(request.getParameter("price"));
+        double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
         
         HouseDAO hdao = new HouseDAO();
