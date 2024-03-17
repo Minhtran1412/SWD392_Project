@@ -1,6 +1,7 @@
 package Dao;
 
 import Model.Rental;
+import java.math.BigDecimal; // Import thư viện BigDecimal
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,36 +11,56 @@ import java.util.List;
 public class RentalDAO extends DBContext {
 
     public List<Rental> searchByRentalAmountRange(double minRentalAmount, double maxRentalAmount) {
-        List<Rental> agreements = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM RentalAgreement WHERE RentalAmount BETWEEN ? AND ?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setDouble(1, minRentalAmount);
-            ps.setDouble(2, maxRentalAmount);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Rental agreement = new Rental();
-                agreement.setId(rs.getInt("ID"));
-                agreement.setAgreementDate(rs.getInt("AgreementDate"));
-                agreement.setAccountID(rs.getInt("AccountID"));
-                agreement.setPropertyID(rs.getInt("PropertyID"));
-                agreement.setRentalAmount(rs.getDouble("RentalAmount"));
-                agreement.setStatus(rs.getInt("Status"));
-                agreements.add(agreement);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    List<Rental> agreements = new ArrayList<>();
+    try {
+        String sql = "SELECT ID, AgreementDate, AccountID, PropertyID, RentalAmount, Status FROM RentalAgreement WHERE RentalAmount BETWEEN ? AND ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setDouble(1, minRentalAmount);
+        ps.setDouble(2, maxRentalAmount);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Rental agreement = new Rental();
+            agreement.setId(rs.getInt("ID"));
+            agreement.setAgreementDate(rs.getDate("AgreementDate")); // Retrieve AgreementDate as java.sql.Date
+            agreement.setAccountID(rs.getInt("AccountID"));
+            agreement.setPropertyID(rs.getInt("PropertyID"));
+            agreement.setRentalAmount(BigDecimal.valueOf(rs.getDouble("RentalAmount"))); // Convert double to BigDecimal
+            agreement.setStatus(rs.getInt("Status"));
+            agreements.add(agreement);
         }
-        return agreements;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
-   public static void main(String[] args) {
-        // Khởi tạo một đối tượng RentalDAO
-        RentalDAO rentalAgreementDAO = new RentalDAO();
+    return agreements;
+}
 
-        // Thực hiện tìm kiếm các hợp đồng thuê nhà trong khoảng giá từ 100 đến 500
+    public String getPropertyById(int propertyID) {
+    String propertyName = "";
+    try {
+        // Thực hiện truy vấn để lấy tên của property dựa trên ID
+        String sql = "SELECT Name FROM Property WHERE id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, propertyID);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            propertyName = rs.getString("Name");
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return propertyName;
+}
+
+    
+    // Phương thức main() để test
+    public static void main(String[] args) {
+        // Khởi tạo một đối tượng RentalDAO
+        RentalDAO rentalDAO = new RentalDAO();
+
+        // Thực hiện tìm kiếm các hợp đồng thuê nhà trong khoảng giá từ 1000 đến 2000
         double minRentalAmount = 1000;
         double maxRentalAmount = 2000;
-        List<Rental> agreements = rentalAgreementDAO.searchByRentalAmountRange(minRentalAmount, maxRentalAmount);
+        List<Rental> agreements = rentalDAO.searchByRentalAmountRange(minRentalAmount, maxRentalAmount);
 
         // Hiển thị kết quả tìm kiếm
         if (agreements.isEmpty()) {
@@ -56,5 +77,4 @@ public class RentalDAO extends DBContext {
             }
         }
     }
-
 }

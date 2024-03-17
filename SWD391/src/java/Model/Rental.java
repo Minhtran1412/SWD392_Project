@@ -1,25 +1,24 @@
 package Model;
 
-
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.util.Date;
 
 public class Rental {
     private int id;
-    private int agreementDate;
+    private Date  agreementDate;
     private int accountID;
     private int propertyID;
-    private int startDate;
+    private Date  startDate;
     private Time endDate;
-    private Double rentalAmount;
+    private BigDecimal rentalAmount; // Sử dụng BigDecimal thay cho Double
     private int status;
 
     public Rental() {
         // Constructor mặc định
     }
 
-    // Constructor với tất cả các trường
-    public Rental(int id, int agreementDate, int accountID, int propertyID, int startDate, Time endDate, Double rentalAmount, int status) {
+    public Rental(int id, Date agreementDate, int accountID, int propertyID, Date startDate, Time endDate, BigDecimal rentalAmount, int status) {
         this.id = id;
         this.agreementDate = agreementDate;
         this.accountID = accountID;
@@ -30,7 +29,6 @@ public class Rental {
         this.status = status;
     }
 
-    // Getters và Setters cho các trường
     public int getId() {
         return id;
     }
@@ -39,11 +37,11 @@ public class Rental {
         this.id = id;
     }
 
-    public int getAgreementDate() {
+    public Date getAgreementDate() {
         return agreementDate;
     }
 
-    public void setAgreementDate(int agreementDate) {
+    public void setAgreementDate(Date agreementDate) {
         this.agreementDate = agreementDate;
     }
 
@@ -63,11 +61,11 @@ public class Rental {
         this.propertyID = propertyID;
     }
 
-    public int getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(int startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
@@ -79,11 +77,11 @@ public class Rental {
         this.endDate = endDate;
     }
 
-    public Double getRentalAmount() {
+    public BigDecimal getRentalAmount() {
         return rentalAmount;
     }
 
-    public void setRentalAmount(Double rentalAmount) {
+    public void setRentalAmount(BigDecimal rentalAmount) {
         this.rentalAmount = rentalAmount;
     }
 
@@ -94,4 +92,6 @@ public class Rental {
     public void setStatus(int status) {
         this.status = status;
     }
+    
+
 }

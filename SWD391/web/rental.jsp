@@ -11,8 +11,6 @@
             <tr>
                 <th>ID</th>
                 <th>Agreement Date</th>
-                <th>Account ID</th>
-                <th>Property ID</th>
                 <th>Rental Amount</th>
                 <th>Status</th>
             </tr>
@@ -22,8 +20,6 @@
         <tr>
             <td>${agreement.id}</td>
             <td>${agreement.agreementDate}</td>
-            <td>${agreement.accountID}</td>
-            <td>${agreement.propertyID}</td>
             <td>${agreement.rentalAmount}</td>
             <td>${agreement.status}</td>
         </tr>
@@ -31,4 +27,4 @@
 </tbody>
     </table>
 </body>
-</html>```
+</html>
