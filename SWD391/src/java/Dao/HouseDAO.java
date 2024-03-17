@@ -59,4 +59,12 @@ public class HouseDAO extends DBContext{
         }
         return data;
     }
+    
+    public static void main(String[] args) {
+        HouseDAO hdao = new HouseDAO();
+        List<Property> list = hdao.getAllHouse();
+        for (Property pr : list) {
+            System.out.println(pr);
+        }
+    }
 }
