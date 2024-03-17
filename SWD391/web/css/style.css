@@ -2023,3 +2023,8 @@ footer .credits {
     font-size: 1.3rem;
   }
 }
+
+.img-a {
+    width: 100%; /* Đặt chiều rộng của ảnh là 100% */
+    height: auto; /* Đảm bảo tỷ lệ hình ảnh được duy trì */
+}

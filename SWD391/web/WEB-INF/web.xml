@@ -3,14 +3,31 @@
     <servlet>
         <servlet-name>HouseController</servlet-name>
         <servlet-class>Controller.HouseController</servlet-class>
+        <multipart-config>
+        <!-- Dung lượng tối đa của mỗi file (đơn vị byte) -->
+        <max-file-size>10485760</max-file-size> <!-- Ví dụ: 10 MB -->
+        <!-- Dung lượng tối đa của mỗi request (đơn vị byte) -->
+        <max-request-size>20971520</max-request-size> <!-- Ví dụ: 20 MB -->
+        <!-- Ngưỡng kích thước dữ liệu trong bộ nhớ sẽ được lưu trữ trước khi được ghi vào đĩa (đơn vị byte) -->
+        <file-size-threshold>0</file-size-threshold> <!-- Lưu tất cả dữ liệu vào đĩa -->
+    </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageHouseController</servlet-name>
+        <servlet-class>Controller.ManageHouseController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HouseController</servlet-name>
         <url-pattern>/houseController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageHouseController</servlet-name>
+        <url-pattern>/manageHouseController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
 </web-app>

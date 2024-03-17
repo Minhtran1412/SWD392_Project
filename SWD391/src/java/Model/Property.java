@@ -4,7 +4,7 @@
  */
 package Model;
 
-import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -13,16 +13,17 @@ import java.sql.Date;
 public class Property {
     private int id;
     private String Address;
-    private int Size, bed, bath, gara, price;
+    private int Size, bed, bath, gara;
+    private double price;
     private int providerID;
     private String img;
-    private Date createDate;
+    private Time createDate;
     private String Description;
 
     public Property() {
     }
 
-    public Property(int id, String Address, int Size, int bed, int bath, int gara, int price, int providerID, String img, Date createDate, String Description) {
+    public Property(int id, String Address, int Size, int bed, int bath, int gara, double price, int providerID, String img, Time createDate, String Description) {
         this.id = id;
         this.Address = Address;
         this.Size = Size;
@@ -84,11 +85,11 @@ public class Property {
         this.gara = gara;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -108,11 +109,11 @@ public class Property {
         this.img = img;
     }
 
-    public Date getCreateDate() {
+    public Time getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Time createDate) {
         this.createDate = createDate;
     }
 
@@ -122,6 +123,11 @@ public class Property {
 
     public void setDescription(String Description) {
         this.Description = Description;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" + "id=" + id + ", Address=" + Address + ", Size=" + Size + ", bed=" + bed + ", bath=" + bath + ", gara=" + gara + ", price=" + price + ", providerID=" + providerID + ", img=" + img + ", createDate=" + createDate + ", Description=" + Description + '}';
     }
     
     
