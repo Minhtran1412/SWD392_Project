@@ -2,6 +2,7 @@ package Dao;
 
 import Model.Rental;
 import java.math.BigDecimal; // Import thư viện BigDecimal
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,11 +11,15 @@ import java.util.List;
 
 public class RentalDAO extends DBContext {
 
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    
     public List<Rental> searchByRentalAmountRange(double minRentalAmount, double maxRentalAmount) {
     List<Rental> agreements = new ArrayList<>();
     try {
         String sql = "SELECT ID, AgreementDate, AccountID, PropertyID, RentalAmount, Status FROM RentalAgreement WHERE RentalAmount BETWEEN ? AND ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql);
         ps.setDouble(1, minRentalAmount);
         ps.setDouble(2, maxRentalAmount);
         ResultSet rs = ps.executeQuery();
@@ -39,7 +44,7 @@ public class RentalDAO extends DBContext {
     try {
         // Thực hiện truy vấn để lấy tên của property dựa trên ID
         String sql = "SELECT Name FROM Property WHERE id = ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, propertyID);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {

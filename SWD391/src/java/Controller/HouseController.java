@@ -6,6 +6,7 @@
 package Controller;
 
 import Dao.HouseDAO;
+import Model.Account;
 import Model.Property;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,6 +58,7 @@ public class HouseController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
         
+        Account a = (Account) request.getSession().getAttribute("acc");
         HouseDAO hdao = new HouseDAO();
         hdao.updateHouse(id, address, size, bed, bath, gara, price,img, description);
         request.getRequestDispatcher("manageHouseController").forward(request, response);

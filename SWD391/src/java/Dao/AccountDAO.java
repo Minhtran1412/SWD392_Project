@@ -16,38 +16,33 @@ import java.sql.ResultSet;
  */
 public class AccountDAO extends DBContext {
 
-    public Account findAcount(String username, String password) {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    public Account findAccount(String username, String password) {
         try {
-            Connection connection = this.connection;
-            String sql = "  SELECT [name],[username] ,[email] ,[address] ,[phone]  ,[avt] ,[status] , [role]\n"
-                    + "  FROM [dbo].[Account]\n"
-                    + "  WHERE [username] =? AND [password] = ?";
-            
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, password);
-            ResultSet rs = stm.executeQuery();
+            String query = "select * from Account where username = ? and password = ?";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
             while (rs.next()) {
-                Account a = Account.builder()
-                        .name(rs.getString("name"))
-                        .username(rs.getString("username"))
-                        .email(rs.getString("email"))
-                        .address(rs.getString("address"))
-                        .phone(rs.getString("phone"))
-                        .avt(rs.getString("avt"))
-                        .status(rs.getString("status"))
-                        .role(rs.getString("role"))
-                        .build();
-                return  a;
-//                return new Account(rs.getString(1),rs.getString(2));
+                return new Account(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getDate(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11));
             }
         } catch (Exception e) {
-            e.printStackTrace(System.out);
+            System.out.println(e);
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new AccountDAO().findAcount("user1", "123"));
     }
 }

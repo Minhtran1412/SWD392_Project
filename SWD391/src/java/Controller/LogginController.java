@@ -16,11 +16,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.*;
 import sun.rmi.server.Dispatcher;
+
 /**
  *
  * @author dell
  */
-@WebServlet(name = "LogginController", urlPatterns = {"/LogginController"})
+@WebServlet(name = "LogginController", urlPatterns = {"/login"})
 public class LogginController extends HttpServlet {
 
     /**
@@ -40,7 +41,7 @@ public class LogginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogginController</title>");            
+            out.println("<title>Servlet LogginController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LogginController at " + request.getContextPath() + "</h1>");
@@ -61,7 +62,18 @@ public class LogginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Cookie[] arr = request.getCookies();
+        if (arr != null) {
+            for (Cookie o : arr) {
+                if (o.getName().equals("userC")) {
+                    request.setAttribute("username", o.getValue());
+                }
+                if (o.getName().equals("passC")) {
+                    request.setAttribute("password", o.getValue());
+                }
+            }
+        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -76,20 +88,33 @@ public class LogginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        RequestDispatcher dispatcher =null;
+        response.setContentType("text/html;charset=UTF-8");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
-        AccountDAO dao = new AccountDAO();
-        
-        Account account = dao.findAcount(username, password);
-        if(account!= null){
+        String remember = request.getParameter("remember");
+
+        AccountDAO userdao = new AccountDAO();
+        Account a = userdao.findAccount(username, password);
+        if (a == null) {
+            request.setAttribute("error", "Sai username hoac password!");
+            request.getRequestDispatcher("login.jsp").
+                    forward(request, response);
+        } else {
             HttpSession session = request.getSession();
-            session.setAttribute("userLogged", account);
-            request.setAttribute("message","Login successful");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
-        }else{
-            request.setAttribute("message","Login failed");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            session.setAttribute("acc", a);
+            session.setMaxInactiveInterval(60 * 60 * 24);
+            //luu account len tren cookie
+            Cookie u = new Cookie("userC", username);
+            Cookie p = new Cookie("passC", password);
+            if (remember != null) {
+                p.setMaxAge(60 * 60 * 24);
+            } else {
+                p.setMaxAge(0);
+            }
+            u.setMaxAge(60 * 60 * 24 * 365);//1 nam
+            response.addCookie(u);//luu u va p len Chrome
+            response.addCookie(p);
+            response.sendRedirect("home.jsp");
         }
 
     }

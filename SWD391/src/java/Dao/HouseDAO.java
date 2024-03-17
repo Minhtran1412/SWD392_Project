@@ -5,6 +5,7 @@
 package Dao;
 
 import Model.Property;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,10 +19,13 @@ import java.util.List;
  * @author acer
  */
 public class HouseDAO extends DBContext{
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
     public void updateHouse(int id, String Address, int Size, int bed, int bath, int gara, double price, String img, String Description){
         String sql = "update Property set [Address] = ?, [Size] = ?, [bed]=?,[bath]=?,[gara]=?, [price]=?, [img]=?, [Description]=? where [id]=?";
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, Address);
             st.setInt(2, Size);
             st.setInt(3, bed);
@@ -40,7 +44,7 @@ public class HouseDAO extends DBContext{
         List<Property> data = new ArrayList<>();
         try {
             String sql = "select * from Property";
-            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st = conn.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while(rs.next()){
                 int id = rs.getInt(1);
@@ -65,7 +69,7 @@ public class HouseDAO extends DBContext{
     public Property getPropertyById(int id){
         String sql = "select * from Property where id = ?";
         try {
-            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
