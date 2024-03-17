@@ -1,7 +1,7 @@
 package Controller;
 
-import Dao.RentalAgreementDAO;
-import Model.RentalAgreement;
+import Dao.RentalDAO;
+import Model.Rental;
 import java.io.IOException;
 import java.util.List;
 import jakarta.servlet.ServletException;
@@ -11,13 +11,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet(name = "RentalAgreementController", urlPatterns = {"/rental-agreement"})
-public class RentalAgreementController extends HttpServlet {
+public class RentalController extends HttpServlet {
 
-    private RentalAgreementDAO rentalAgreementDAO;
+    private RentalDAO rentalAgreementDAO;
 
     @Override
     public void init() throws ServletException {
-        rentalAgreementDAO = new RentalAgreementDAO();
+        rentalAgreementDAO = new RentalDAO();
     }
 
     @Override
@@ -29,13 +29,11 @@ public class RentalAgreementController extends HttpServlet {
             double maxRentalAmount = Double.parseDouble(request.getParameter("maxRentalAmount"));
 
             // Gọi phương thức tìm kiếm trong DAO để lấy danh sách hợp đồng thuê nhà
-            List<RentalAgreement> agreements = rentalAgreementDAO.searchByRentalAmountRange(minRentalAmount, maxRentalAmount);
+            List<Rental> agreements = rentalAgreementDAO.searchByRentalAmountRange(minRentalAmount, maxRentalAmount);
 
             // Đặt danh sách hợp đồng vào thuộc tính của request để hiển thị trên trang JSP
-            request.setAttribute("agreements", agreements);
-
-            // Chuyển hướng đến trang rental-agreement.jsp để hiển thị kết quả
-            request.getRequestDispatcher("rental-agreement.jsp").forward(request, response);
+request.setAttribute("agreements", agreements);
+request.getRequestDispatcher("rental-agreement.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             // Xử lý nếu có lỗi khi chuyển đổi dữ liệu thành số
             request.setAttribute("errorMessage", "Invalid input. Please enter valid numbers.");

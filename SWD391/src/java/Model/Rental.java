@@ -4,7 +4,7 @@ package Model;
 import java.math.BigDecimal;
 import java.sql.Time;
 
-public class RentalAgreement {
+public class Rental {
     private int id;
     private int agreementDate;
     private int accountID;
@@ -14,12 +14,12 @@ public class RentalAgreement {
     private Double rentalAmount;
     private int status;
 
-    public RentalAgreement() {
+    public Rental() {
         // Constructor mặc định
     }
 
     // Constructor với tất cả các trường
-    public RentalAgreement(int id, int agreementDate, int accountID, int propertyID, int startDate, Time endDate, Double rentalAmount, int status) {
+    public Rental(int id, int agreementDate, int accountID, int propertyID, int startDate, Time endDate, Double rentalAmount, int status) {
         this.id = id;
         this.agreementDate = agreementDate;
         this.accountID = accountID;
