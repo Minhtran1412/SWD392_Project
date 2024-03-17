@@ -17,7 +17,13 @@ import java.util.logging.Logger;
  * @author FPT University - PRJ301
  */
 public class DBContext {
-    protected Connection connection;
+    protected  Connection connection;
+      private final String serverName = "localhost";
+    private final String dbName = "SWD392_Project";
+    private final String portNumber = "1433";
+    private final String userID = "sa";
+    private final String password = "123456";
+
     public DBContext()
     {
         //@Students: You are allowed to edit user, pass, url variables to fit 
@@ -27,13 +33,14 @@ public class DBContext {
         // For example : StudentDBContext extends DBContext , 
         //where StudentDBContext is located in dal package, 
         try {
-            String user = "sa";
-            String pass = "12345";
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=SWD392_Project";
+              String url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName;
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, user, pass);
+            connection =  DriverManager.getConnection(url, userID, password);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+     public static void main(String[] args) {
+        System.out.println(new DBContext().connection);
     }
 }
