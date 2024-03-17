@@ -51,7 +51,10 @@ public class ManageHouseController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        super.doPost(request, response);
+        HouseDAO hdao = new HouseDAO();
+       List<Property> listAll = hdao.getAllHouse();
+       request.setAttribute("listAll", listAll);
+       request.getRequestDispatcher("manage-list-house.jsp").forward(request, response);
     }
 
     /** 

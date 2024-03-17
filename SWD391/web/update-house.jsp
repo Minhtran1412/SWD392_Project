@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,8 +95,8 @@ color:#69707a;
 <div class="card-header">Name House </div>
 <div class="card-body text-center">
 
-<img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt>
-<form action="houseController" method="post" enctype="multipart/form-data">
+<form id="myForm" action="houseController" method="post" enctype="multipart/form-data">
+    <img class="img-account-profile rounded-circle mb-2" src="${p.getImg()}" alt>
 <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
     <input type="file" name="file" accept="image/png, image/jpeg" class="mb-2" required>
 </div>
@@ -105,22 +107,22 @@ color:#69707a;
 <div class="card mb-4">
 <div class="card-header">House Details</div>
 <div class="card-body">
-<input class="form-control" id="id" name="id" type="hidden"  value="address">
+<input class="form-control" id="id" name="id" type="hidden"  value="${p.getId()}">
 <div class="mb-3">
 <label class="small mb-1" for="inputAddress">Address </label>
-<input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your username" value="address">
+<input class="form-control" id="inputAddress" name="address" type="text" placeholder="Enter your username" value="${p.getAddress()}">
 </div>
 
 <div class="row gx-3 mb-3">
 
 <div class="col-md-6">
 <label class="small mb-1" for="inputSize">Size</label>
-<input class="form-control" id="size" name="size" type="text" placeholder="Enter your first name" value="size">
+<input class="form-control" id="size" name="size" type="text" placeholder="Enter your first name" value="${p.getSize()}">
 </div>
 
 <div class="col-md-6">
 <label class="small mb-1" for="inputBed">Bed</label>
-<input class="form-control" id="bed" name="bed" type="text" placeholder="Enter your last name" value="bed">
+<input class="form-control" id="bed" name="bed" type="text" placeholder="Enter your last name" value="${p.getBed()}">
 </div>
 </div>
 
@@ -128,33 +130,80 @@ color:#69707a;
 
 <div class="col-md-6">
 <label class="small mb-1" for="inputBath">Bath</label>
-<input class="form-control" id="bath" name="bath" type="text" placeholder="Enter your organization name" value="bath">
+<input class="form-control" id="bath" name="bath" type="text" placeholder="Enter your organization name" value="${p.getBath()}">
 </div>
 
 <div class="col-md-6">
 <label class="small mb-1" for="inputGara">Gara</label>
-<input class="form-control" id="gara" name="gara" type="text" placeholder="Enter your location" value="gara">
+<input class="form-control" id="gara" name="gara" type="text" placeholder="Enter your location" value="${p.getGara()}">
 </div>
 </div>
 
 <div class="mb-3">
 <label class="small mb-1" for="inputDescription">Description</label>
-<input class="form-control" id="description" name="description" type="email" placeholder="Enter your email address" value="description">
+<input class="form-control" id="description" name="description" type="email" placeholder="Enter your email address" value="${p.getDescription()}">
 </div>
 
 <div class="mb-3">
 <label class="small mb-1" for="input">Price</label>
-<input class="form-control" id="price" type="text" name="price" placeholder="Enter your birthday" value="price">
+<input class="form-control" id="price" type="text" name="price" placeholder="Enter your birthday" value="${p.getPrice()}" >
 </div>
 </div>
 
-<button class="btn btn-primary" type="button">Save changes</button>
+<button id="saveChangesBtn" class="btn btn-primary" type="button">Update</button>
 </form>
 </div>
 </div>
 </div>
 </div>
 </div>
+<script>
+document.getElementById("saveChangesBtn").addEventListener("click", function() {
+    // Lấy giá trị từ các trường nhập
+    var address = document.getElementById("inputAddress").value.trim();
+    var size = document.getElementById("size").value.trim();
+    var bed = document.getElementById("bed").value.trim();
+    var bath = document.getElementById("bath").value.trim();
+    var gara = document.getElementById("gara").value.trim();
+    var description = document.getElementById("description").value.trim();
+    var price = document.getElementById("price").value.trim();
+
+    // Lấy giá trị mặc định từ trường value của các trường
+    var defaultAddress = "${p.getAddress()}";
+    var defaultSize = "${p.getSize()}";
+    var defaultBed = "${p.getBed()}";
+    var defaultBath = "${p.getBath()}";
+    var defaultGara = "${p.getGara()}";
+    var defaultDescription = "${p.getDescription()}";
+    var defaultPrice = "${p.getPrice()}";
+
+    // Kiểm tra xem các trường có rỗng không
+    if (address === '') {
+        document.getElementById("inputAddress").value = defaultAddress;
+    }
+    if (size === '') {
+        document.getElementById("size").value = defaultSize;
+    }
+    if (bed === '') {
+        document.getElementById("bed").value = defaultBed;
+    }
+    if (bath === '') {
+        document.getElementById("bath").value = defaultBath;
+    }
+    if (gara === '') {
+        document.getElementById("gara").value = defaultGara;
+    }
+    if (description === '') {
+        document.getElementById("description").value = defaultDescription;
+    }
+    if (price === '') {
+        document.getElementById("price").value = defaultPrice;
+    }
+
+    // Gửi form
+    document.getElementById("myForm").submit();
+});
+</script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">

@@ -6,6 +6,7 @@
 package Controller;
 
 import Dao.HouseDAO;
+import Model.Property;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,7 +29,11 @@ public class HouseController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        super.doGet(request, response);
+        HouseDAO hdao = new HouseDAO();
+        int id = Integer.parseInt(request.getParameter("id"));
+        Property p = hdao.getPropertyById(id);
+        request.setAttribute("p", p);
+        request.getRequestDispatcher("update-house.jsp").forward(request, response);
     } 
 
     /** 
@@ -54,7 +59,7 @@ public class HouseController extends HttpServlet {
         
         HouseDAO hdao = new HouseDAO();
         hdao.updateHouse(id, address, size, bed, bath, gara, price,img, description);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("manageHouseController").forward(request, response);
     }
 
     /** 

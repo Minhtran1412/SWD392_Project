@@ -8,6 +8,7 @@ import Model.Property;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,36 @@ public class HouseDAO extends DBContext{
         }
         return data;
     }
+    
+    public Property getPropertyById(int id){
+        String sql = "select * from Property where id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Property p = new Property();
+                p.setId(id);
+                p.setAddress(rs.getString(2));
+                p.setSize(rs.getInt(3));
+                p.setBed(rs.getInt(4));
+                p.setBath(rs.getInt(5));
+                p.setGara(rs.getInt(6));
+                p.setPrice(rs.getDouble(7));
+                p.setProviderID(rs.getInt(8));
+                p.setImg(rs.getString(9));
+                p.setCreateDate(rs.getTime(10));
+                p.setDescription(rs.getString(11));
+                
+                return p;
+                            
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
     
     public static void main(String[] args) {
         HouseDAO hdao = new HouseDAO();
