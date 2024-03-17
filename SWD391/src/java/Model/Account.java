@@ -5,18 +5,37 @@
 package Model;
 
 import java.sql.Date;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+/**
+ *
+ * @author dell
+ */
+
+@Builder
+@Getter
+@Setter
+@ToString
 /**
  *
  * @author acer
  */
 public class Account {
     private int id;
-    private String name, username, password, email, address, phone;
+    private String name;
+    private String username;
+    private String password;
+    private String email;
+    private String address;
+    private String phone; 
     private Date dob;
     private String avt;
     private String status;
     private String role;
+
 
     public Account() {
     }
